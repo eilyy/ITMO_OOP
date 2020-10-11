@@ -16,6 +16,14 @@ public:
     template <typename T>
     T INISearch(const string& Section, const string& Name) {
         T result;
+        if(p.data.find(Section) == p.data.end()) {
+            cerr << "Section not found";
+            exit(1);
+        }
+        if(p.data[Section].find(Name) == p.data[Section].end()) {
+            cerr << "Field not found";
+            exit(1);
+        }
         string value = p.data[Section][Name];
         stringstream ss;
         ss << value;
