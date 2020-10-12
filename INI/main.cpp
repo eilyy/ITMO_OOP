@@ -12,6 +12,6 @@ int main(int argc, char* argv[]) {
     }
 
     INIController ini(file);
-    cout << ini.INISearch<string>("[COMMON]", "DiskCachePath") << ' ' << ini.INISearch<double>("[ADC_DEV]", "SimpleRate");
+    cout << ini.INISearch<string>("COMMON", "DiskCachePath") << ' ' << ini.INISearch<double>("[ADC_DEV]", "SimpleRate");
     return 0;
 }

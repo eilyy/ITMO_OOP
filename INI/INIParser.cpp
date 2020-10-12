@@ -12,7 +12,7 @@ void INIParser::makeMap() {
     string str, CurrentSection, CurrentName, Value;
     while(f.fin >> str) {
         if(str[0] == '[')
-            CurrentSection = str;
+            CurrentSection = str.substr(1, str.find(']') - 1);
         else if(str == "=") {
             streampos pos = f.fin.tellg();
             f.fin >> str;
