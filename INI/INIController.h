@@ -17,12 +17,10 @@ public:
     T INISearch(const string& Section, const string& Name) {
         T result;
         if(p.data.find(Section) == p.data.end()) {
-            cerr << "Section not found";
-            exit(1);
+            throw "Section not found";
         }
         if(p.data[Section].find(Name) == p.data[Section].end()) {
-            cerr << "Field not found";
-            exit(1);
+            throw "Field not found";
         }
         string value = p.data[Section][Name];
         stringstream ss;
@@ -32,8 +30,7 @@ public:
         else {
             for (int i = 0; i < value.length(); i++) {
                 if (!isdigit(value[i]) && value[i] != '.') {
-                    cerr << "Invalid Type";
-                    exit(1);
+                    throw "Invalid Type";
                 }
             }
             ss >> result;

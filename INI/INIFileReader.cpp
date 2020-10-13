@@ -7,7 +7,6 @@
 INIFileReader::INIFileReader(const string& file) {
     this->fin.open(file);
     if(!fin) {
-        cerr << "Error while opening file";
-        exit(1);
+        throw "Error while opening file";
     }
 }
