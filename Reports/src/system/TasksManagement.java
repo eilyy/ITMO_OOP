@@ -1,8 +1,10 @@
 package system;
 
+import system.databases.ReportsDB;
 import system.databases.StaffDB;
 import system.databases.TasksDB;
 import system.staff.Employee;
+import system.staff.IEmployee;
 import system.tasks.Status;
 import system.tasks.Task;
 
@@ -10,11 +12,19 @@ import java.util.Collection;
 import java.util.Vector;
 
 public class TasksManagement {
+    private static TasksManagement instance;
 
-    private StaffDB sdb = new StaffDB();
-    private TasksDB tdb = new TasksDB();
+    private static StaffDB sdb = StaffDB.getInstance();
+    private static TasksDB tdb = TasksDB.getInstance();
+    private static ReportsDB rdb = ReportsDB.getInstance();
 
     private static int taskId = 0;
+
+    public static TasksManagement getInstance() {
+        if(instance == null)
+            instance = new TasksManagement();
+        return instance;
+    }
 
     private int generateTaskId() {
         taskId++;
@@ -29,25 +39,33 @@ public class TasksManagement {
         tdb.removeLastChangeTime(time);
     }
 
-    public void newTask(String name, String description, long time) {
+    public void newTask(String name, String description, long time) throws Exception {
         int newId = this.generateTaskId();
+
         tdb.addTask(newId, name, description, time);
+
+        if(rdb.onSprint())
+            rdb.getCurrentSprint().addTask(newId);
     }
 
     public void assignTaskDoer(int taskId, int employeeId, long time) throws Exception {
+        if(employeeId == 0 && sdb.getTeamLead() == null)
+            throw new Exception("There is no team-lead in this system");
+
         Task task = tdb.getTaskById(taskId);
+        IEmployee doer = (employeeId == 0) ? sdb.getTeamLead() : sdb.getEmployeeById(employeeId);
 
         if(task.getStatus() != Status.RESOLVED) {
             if(task.getStatus() == Status.ACTIVE)
                 task.removeDoer();
-            task.assignDoer(sdb.getEmployeeById(employeeId), time);
+            task.assignDoer(doer, time);
         }
         else
-            throw new Exception("This task is not available to do");
+            throw new Exception("This task is unavailable to do");
     }
 
     public Collection<Task> getTasksByDoer(int employeeId) throws Exception {
-        return sdb.getEmployeeById(employeeId).getTasks();
+        return (employeeId == 0) ? sdb.getTeamLead().getAllTasks() : sdb.getEmployeeById(employeeId).getAllTasks();
     }
 
     public Vector<Task> getCommittedEmployeesTasks(int employeeId) throws Exception {
@@ -67,12 +85,12 @@ public class TasksManagement {
     }
 
     public Collection<Task> getSubordinatesTasks(int managerId) throws Exception {
-        var so = sdb.getEmployeeById(managerId).getSubordinates();
+        var so = (managerId == 0) ? sdb.getTeamLead().getSubordinates() : sdb.getEmployeeById(managerId).getSubordinates();
         if(so.isEmpty())
             throw new Exception("This employee has no subordinates");
         Collection<Task> result = new Vector<>();
         for(Employee i : so) {
-            result.addAll(i.getTasks());
+            result.addAll(i.getAllTasks());
         }
         return result;
     }

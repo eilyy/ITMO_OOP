@@ -5,7 +5,7 @@ import system.StaffManagement;
 public class Employee extends AbstractEmployee {
     private IEmployee manager;
 
-    public Employee(int employeeId, String name, IEmployee manager) throws Exception {
+    public Employee(int employeeId, String name, IEmployee manager) {
         this.employeeId = employeeId;
         this.name = name;
         this.manager = manager;
@@ -18,7 +18,7 @@ public class Employee extends AbstractEmployee {
             i.renewLevel();
         }
 
-        var sm = new StaffManagement();
+        var sm = StaffManagement.getInstance();
 
         if(this.level > sm.getMaxLevel())
             sm.setMaxLevel(this.level);

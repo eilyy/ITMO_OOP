@@ -6,18 +6,26 @@ import system.staff.Employee;
 import system.staff.TeamLead;
 
 public class StaffManagement {
+    private static StaffManagement instance;
+
     private static int employeeId = 0;
     private static int maxLevel = 0;
 
-    private StaffDB sdb = new StaffDB();
-    private TasksDB tdb = new TasksDB();
+    private static StaffDB sdb = StaffDB.getInstance();
+    private static TasksDB tdb = TasksDB.getInstance();
+
+    public static StaffManagement getInstance() {
+        if(instance == null)
+            instance = new StaffManagement();
+        return instance;
+    }
 
     private int generateEmployeeId() {
         employeeId++;
         return employeeId;
     }
 
-    public TeamLead getTeamLead() {
+    public TeamLead getTeamLead() throws Exception {
         return sdb.getTeamLead();
     }
 
@@ -57,7 +65,7 @@ public class StaffManagement {
             sdb.getEmployeeById(managerId).addSubordinate(employeeId);
     }
 
-    public String getHierarchy() {
+    public String getHierarchy() throws Exception {
         String hierarchy = "===== HIERARCHY =====\n";
 
         hierarchy += "Level 0:\n" + String.valueOf(this.getTeamLead().getId()) + "(" + this.getTeamLead().getName() + "): ";

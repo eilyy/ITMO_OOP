@@ -3,7 +3,7 @@ package UI;
 import system.StaffManagement;
 
 public class StaffUI {
-    StaffManagement sm = new StaffManagement();
+    private StaffManagement sm = StaffManagement.getInstance();
 
     public void newEmployee(String name, int managerId) throws Exception {
         sm.newEmployee(name, managerId);
@@ -17,7 +17,7 @@ public class StaffUI {
         sm.changeManagerForEmployee(employeeId, managerId);
     }
 
-    public String getHierarchy() {
+    public String getHierarchy() throws Exception {
         return sm.getHierarchy();
     }
 }

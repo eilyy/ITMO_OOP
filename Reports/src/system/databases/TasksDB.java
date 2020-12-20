@@ -6,9 +6,17 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class TasksDB {
+    private static TasksDB instance;
+
     private static HashMap<Integer, Task> tasks = new HashMap<>();
     private static HashMap<Long, Integer> createTime = new HashMap<>();
     private static HashMap<Long, Integer> lastChangeTime = new HashMap<>();
+
+    public static TasksDB getInstance() {
+        if(instance == null)
+            instance = new TasksDB();
+        return instance;
+    }
 
     public void setLastChangeTime(long time, int taskId) {
         lastChangeTime.put(time, taskId);

@@ -7,8 +7,15 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class StaffDB {
+    private static StaffDB instance;
     private static HashMap<Integer, Employee> employees = new HashMap<>();
     private static TeamLead teamLead;
+
+    public static StaffDB getInstance() {
+        if(instance == null)
+            instance = new StaffDB();
+        return instance;
+    }
 
     public Employee getEmployeeById(int id) throws Exception {
         if(!employees.containsKey(id))
@@ -16,7 +23,7 @@ public class StaffDB {
         return employees.get(id);
     }
 
-    public TeamLead getTeamLead() {
+    public TeamLead getTeamLead() throws Exception {
         return teamLead;
     }
 

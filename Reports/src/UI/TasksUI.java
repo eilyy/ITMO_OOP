@@ -8,14 +8,14 @@ import java.util.Collection;
 import java.util.Vector;
 
 public class TasksUI {
-    private TasksManagement tm = new TasksManagement();
-    private TasksDB tdb = new TasksDB();
+    private TasksManagement tm = TasksManagement.getInstance();
+    private TasksDB tdb = TasksDB.getInstance();
 
     public Task getTaskById(int id) throws Exception {
         return tdb.getTaskById(id);
     }
 
-    public void newTask(String name, String description, long time) {
+    public void newTask(String name, String description, long time) throws Exception {
         tm.newTask(name, description, time);
     }
 
