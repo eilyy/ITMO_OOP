@@ -12,7 +12,7 @@ public class Bank {
     private int id;
 
     private Vector<Client> clients = new Vector<>();
-    private Vector<Transaction> transactions = new Vector<>();
+    private HashMap<Integer, Transaction> transactions = new HashMap<>();
 
     private HashMap<Integer, Account> accounts = new HashMap<>();
 
@@ -82,19 +82,15 @@ public class Bank {
     }
 
     public void cancelTransaction(int transactionId) throws Exception {
-        for(Transaction i : transactions) {
-            if(i.getTransactionId() == transactionId) {
-                i.cancel();
-                transactions.remove(transactionId);
-                return;
-            }
-        }
+        if(!transactions.containsKey(transactionId))
+            throw new Exception("Given Transaction ID does not exist");
+        transactions.get(transactionId).cancel();
+        transactions.remove(transactionId);
 
-        throw new Exception("Given Transaction ID does not exist");
     }
 
     public void newTransaction(Transaction transaction) {
-        this.transactions.add(transaction);
+        this.transactions.put(transaction.getTransactionId(), transaction);
     }
 
     public int getId() {

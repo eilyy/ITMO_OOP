@@ -29,11 +29,18 @@ public class Main {
             tinkoff.newDeposit(seva, 200000, 12);
 
             db.getBankAccount(ilya.getAccount(1, 1)).replenish(20000);
-            db.getBankAccount(ilya.getAccount(1, 1)).transfer(seva.getAccount(1, 1), 10000);
+            db.getBankAccount(ilya.getAccount(1, 1)).transfer(seva.getAccount(2, 1), 10000);
             db.skipDays(60);
 
+
             System.out.println(db.getBankAccount(ilya.getAccount(1, 1)).getBalance());
-            System.out.println(db.getBankAccount(seva.getAccount(1, 1)).getBalance());
+            System.out.println(db.getBankAccount(seva.getAccount(2, 1)).getBalance());
+
+            sber.cancelTransaction(1);
+
+            System.out.println(db.getBankAccount(ilya.getAccount(1, 1)).getBalance());
+            System.out.println(db.getBankAccount(seva.getAccount(2, 1)).getBalance());
+
         } catch(Exception e) {
             System.err.println(e);
         }
