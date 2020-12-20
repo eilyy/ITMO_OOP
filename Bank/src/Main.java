@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            Database db = new Database();
+            Database db = Database.getInstance();
 
             Bank sber = new Bank(0.03, 0.05, 200000, 0.05, 0.1, 0.03, 0.04, 0.05);
             Bank tinkoff = new Bank(0.04, 0.05, 300000, 0.04, 0.1, 0.05, 0.06, 0.07);
@@ -29,7 +29,7 @@ public class Main {
             tinkoff.newDeposit(seva, 200000, 12);
 
             db.getBankAccount(ilya.getAccount(1, 1)).replenish(20000);
-            db.getBankAccount(ilya.getAccount(1, 1)).transfer(seva.getAccount(1, 1), 102000);
+            db.getBankAccount(ilya.getAccount(1, 1)).transfer(seva.getAccount(1, 1), 10000);
             db.skipDays(60);
 
             System.out.println(db.getBankAccount(ilya.getAccount(1, 1)).getBalance());

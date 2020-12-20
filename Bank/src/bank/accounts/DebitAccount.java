@@ -44,7 +44,7 @@ public class DebitAccount extends Account {
             throw new Exception("Unable to transfer money to deposit account");
 
         double amountToSend = amount * (this.commission + 1);
-        Account recipientAccount = new Database().getBankAccount(recipientId);
+        Account recipientAccount = Database.getInstance().getBankAccount(recipientId);
 
         if(recipientAccount == null)
             throw new Exception("Given recipient account does not exist");

@@ -1,10 +1,10 @@
 import racepack.*;
 import racepack.race.Race;
-import racepack.templates.Racer;
+import racepack.templates.*;
 
 public class Demo {
     public static void main(String[] args) {
-        Race<Racer> race = new Race<Racer>();
+        Race<LandRacer> race = new Race<>();
         race.setDistance(1000);
         race.registerParticipant(new BactrianCamel());
         race.startRace();

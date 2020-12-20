@@ -3,7 +3,14 @@ package bank;
 import java.util.HashMap;
 
 public class Database {
+    private static Database instance;
     private static HashMap<Integer, Bank> banks = new HashMap<>();
+
+    public static Database getInstance() {
+        if(instance == null)
+            instance = new Database();
+        return instance;
+    }
 
     public void addBank(Bank bank) {
         banks.put(bank.getId(), bank);

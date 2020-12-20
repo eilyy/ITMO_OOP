@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="08ad7671-5a83-4a92-92be-2f5adef21bdc" name="Default Changelist" comment="" />
+    <list default="true" id="08ad7671-5a83-4a92-92be-2f5adef21bdc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../Bank/Bank.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Bank/src/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Bank/src/Bank.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Bank/src/Client.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Bank/src/CreditAccount.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Bank/src/DebitAccount.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Bank/src/DepositAccount.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Bank/src/IDGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Demo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Demo.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,7 +27,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="1keNfM7Fs5rDWaRKx56ZJXWZMUp" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -23,6 +39,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -59,6 +76,7 @@
       <workItem from="1606057201549" duration="1627000" />
       <workItem from="1607081637507" duration="8512000" />
       <workItem from="1607184474802" duration="3621000" />
+      <workItem from="1607335432194" duration="635000" />
     </task>
     <servers />
   </component>
@@ -70,25 +88,29 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="184" y="112" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1607092112249" />
-    <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1607271460565">
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom" timestamp="1607284862879">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1607271460565" />
-    <state width="1398" height="245" key="GridCell.Tab.0.center" timestamp="1607271460564">
+    <state width="1398" height="245" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1607284862879" />
+    <state width="1398" height="245" key="GridCell.Tab.0.center" timestamp="1607284862876">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1607271460564" />
-    <state width="1398" height="245" key="GridCell.Tab.0.left" timestamp="1607271460563">
+    <state width="1398" height="245" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1607284862876" />
+    <state width="1398" height="245" key="GridCell.Tab.0.left" timestamp="1607284862873">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1607271460563" />
-    <state width="1398" height="245" key="GridCell.Tab.0.right" timestamp="1607271460564">
+    <state width="1398" height="245" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1607284862873" />
+    <state width="1398" height="245" key="GridCell.Tab.0.right" timestamp="1607284862878">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="245" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1607271460564" />
+    <state width="1398" height="245" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1607284862878" />
     <state x="397" y="282" key="com.intellij.ide.util.TipDialog" timestamp="1607184474796">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="397" y="282" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1607184474796" />
+    <state x="97" y="72" key="new project wizard" timestamp="1607284860612">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="97" y="72" key="new project wizard/0.0.1440.900@0.0.1440.900" timestamp="1607284860612" />
   </component>
 </project>

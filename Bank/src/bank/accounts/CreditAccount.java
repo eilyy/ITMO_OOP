@@ -38,7 +38,7 @@ public class CreditAccount extends Account {
             throw new Exception("Unable to transfer money to deposit account");
 
         double amountToSend = (this.balance > 0) ? this.balance -= amount * (this.commission + 1) : amount * (this.commission + 1) * (this.overdraftCommission + 1);
-        Account recipientAccount = new Database().getBankAccount(recipientId);
+        Account recipientAccount = Database.getInstance().getBankAccount(recipientId);
 
         if(recipientAccount == null)
         throw new Exception("Given recipient account does not exist");

@@ -21,7 +21,7 @@ public class Bank {
 
     public Bank(double debitInterest, double unverifiedCommission, double creditLimit, double debtInterest, double overdraftCommission, double depositInterest1, double depositInterest2, double depositInterest3) {
         this.id = IDGenerator.generateBankId();
-        new Database().addBank(this);
+        Database.getInstance().addBank(this);
         this.debitInterest = debitInterest;
         this.unverifiedCommission = unverifiedCommission;
         this.creditLimit = creditLimit;

@@ -18,8 +18,8 @@ public class Transaction {
 
     public void cancel() {
         Account sender, recipient;
-        sender = new Database().getBankAccount(senderId);
-        recipient = new Database().getBankAccount(recipientId);
+        sender = Database.getInstance().getBankAccount(senderId);
+        recipient = Database.getInstance().getBankAccount(recipientId);
 
         if(String.valueOf(sender.id).startsWith("1"))
             sender.balance += this.sentAmount;
