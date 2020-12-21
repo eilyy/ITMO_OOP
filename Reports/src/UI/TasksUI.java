@@ -1,18 +1,20 @@
 package UI;
 
-import system.TasksManagement;
-import system.databases.TasksDB;
+import system.ITasksManagement;
 import system.tasks.Task;
 
 import java.util.Collection;
 import java.util.Vector;
 
 public class TasksUI {
-    private TasksManagement tm = TasksManagement.getInstance();
-    private TasksDB tdb = TasksDB.getInstance();
+    private ITasksManagement tm;
+
+    public TasksUI(ITasksManagement tasksManagement) {
+        tm = tasksManagement;
+    }
 
     public Task getTaskById(int id) throws Exception {
-        return tdb.getTaskById(id);
+        return tm.getTaskById(id);
     }
 
     public void newTask(String name, String description, long time) throws Exception {
@@ -41,5 +43,9 @@ public class TasksUI {
 
     public Collection<Task> getSubordinatesTasks(int managerId) throws Exception {
         return tm.getSubordinatesTasks(managerId);
+    }
+
+    public ITasksManagement getTm() {
+        return tm;
     }
 }

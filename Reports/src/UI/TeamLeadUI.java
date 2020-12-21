@@ -1,7 +1,9 @@
 package UI;
 
+import system.IStaffManagement;
 import system.StaffManagement;
-import system.databases.StaffDB;
+import system.dal.IStaffDB;
+import system.dal.StaffDB;
 import system.staff.TeamLead;
 import system.tasks.Task;
 
@@ -9,11 +11,11 @@ import java.util.Collection;
 import java.util.Vector;
 
 public class TeamLeadUI {
-    private StaffManagement sm = StaffManagement.getInstance();
-    private StaffDB sdb = StaffDB.getInstance();
+    private IStaffDB sdb;
     private TeamLead user;
 
-    public TeamLeadUI() throws Exception {
+    public TeamLeadUI(IStaffDB staffDB) throws Exception {
+        this.sdb = staffDB;
         this.user = sdb.getTeamLead();
     }
 

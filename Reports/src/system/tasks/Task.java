@@ -1,7 +1,9 @@
 package system.tasks;
 
+import system.ITasksManagement;
 import system.TasksManagement;
-import system.databases.ReportsDB;
+import system.dal.IReportsDB;
+import system.dal.ReportsDB;
 import system.staff.IEmployee;
 
 import java.util.HashMap;
@@ -12,15 +14,21 @@ public class Task {
     private IEmployee doer;
     private long lastChangeTime = -1;
 
+    private ITasksManagement tm;
+    private IReportsDB rdb;
+
     private Status status;
 
     private HashMap<Long, String> changeLog = new HashMap<>();
 
-    public Task(int taskId, String name, String description) {
+    public Task(int taskId, String name, String description, IReportsDB reportsDB, ITasksManagement tasksManagement) {
         this.taskId = taskId;
         this.name = name;
         this.description = description;
         this.status = Status.OPEN;
+
+        this.rdb = reportsDB;
+        this.tm = tasksManagement;
     }
 
     public Status getStatus() {
@@ -53,7 +61,7 @@ public class Task {
         this.log += "[" + time + "] THE TASK IS NOW RESOLVED\n";
         this.changeLog.put(time, "[THE TASK IS NOW RESOLVED]");
         this.status = Status.RESOLVED;
-        ReportsDB.getInstance().newResolvedTask(this.taskId);
+        rdb.newResolvedTask(this.taskId);
     }
 
     public String getLog() {
@@ -66,8 +74,8 @@ public class Task {
 
     private void renewDB(long time) {
         if(this.lastChangeTime != -1)
-            TasksManagement.getInstance().removeLastChangeTime(this.lastChangeTime);
-        TasksManagement.getInstance().setLastChangeTime(time, this.taskId);
+            tm.removeLastChangeTime(this.lastChangeTime);
+        tm.setLastChangeTime(time, this.taskId);
         this.lastChangeTime = time;
     }
 }

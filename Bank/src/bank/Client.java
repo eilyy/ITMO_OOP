@@ -19,8 +19,7 @@ public class Client {
     }
 
     public Client(String name, String surname, String address) {
-        this.name = name;
-        this.surname = surname;
+        this(name, surname);
         this.address = address;
     }
 

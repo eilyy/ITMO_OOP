@@ -1,18 +1,18 @@
-package system.databases;
+package system;
 
 import java.util.Calendar;
 import java.util.Stack;
 
-public class TimeDB {
-    private static TimeDB instance;
+public class TimeHelper {
+    private static TimeHelper instance;
     private static Stack<Long> timeStack = new Stack<>();
 
     private static long dateNow = -1;
     private static Calendar date = Calendar.getInstance();
 
-    public static TimeDB getInstance() {
+    public static TimeHelper getInstance() {
         if(instance == null)
-            instance = new TimeDB();
+            instance = new TimeHelper();
         return instance;
     }
 

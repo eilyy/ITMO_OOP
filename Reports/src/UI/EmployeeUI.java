@@ -1,7 +1,9 @@
 package UI;
 
+import system.IStaffManagement;
 import system.StaffManagement;
-import system.databases.StaffDB;
+import system.dal.IStaffDB;
+import system.dal.StaffDB;
 import system.staff.Employee;
 import system.tasks.Task;
 
@@ -9,11 +11,11 @@ import java.util.Collection;
 import java.util.Vector;
 
 public class EmployeeUI {
-    private StaffManagement sm = StaffManagement.getInstance();
-    private StaffDB sdb = StaffDB.getInstance();
+    private IStaffDB sdb;
     private Employee user;
 
-    public EmployeeUI(int userId) throws Exception {
+    public EmployeeUI(int userId, IStaffDB staffDB) throws Exception {
+        this.sdb = staffDB;
         this.user = sdb.getEmployeeById(userId);
     }
 

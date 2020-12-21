@@ -1,13 +1,17 @@
 package UI;
 
-import system.ReportsManagement;
+import system.IReportsManagement;
 import system.reports.Sprint;
 import system.tasks.Task;
 
 import java.util.Collection;
 
 public class ReportsUI {
-    private ReportsManagement rm = ReportsManagement.getInstance();
+    private IReportsManagement rm;
+
+    public ReportsUI(IReportsManagement reportsManagement) {
+        this.rm = reportsManagement;
+    }
 
     public void startSprint(int hour, int min) throws Exception {
         rm.startSprint(hour, min);
@@ -39,5 +43,9 @@ public class ReportsUI {
 
     public Sprint getSprintByFinishTime(int finishYear, int finishMonth, int finishDay, int finishHour, int finishMin) throws Exception {
         return rm.getSprintByFinishTime(finishYear, finishMonth, finishDay, finishHour, finishMin);
+    }
+
+    public IReportsManagement getRm() {
+        return this.rm;
     }
 }

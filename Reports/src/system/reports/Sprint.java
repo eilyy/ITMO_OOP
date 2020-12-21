@@ -1,8 +1,11 @@
 package system.reports;
 
+import system.IReportsManagement;
+import system.ITasksManagement;
 import system.TasksManagement;
-import system.databases.ReportsDB;
-import system.databases.TasksDB;
+import system.dal.IReportsDB;
+import system.dal.ITasksDB;
+import system.dal.TasksDB;
 import system.tasks.Status;
 import system.tasks.Task;
 
@@ -16,11 +19,18 @@ public class Sprint {
 
     private Vector<Integer> tasks = new Vector<>();
 
+    private ITasksDB tdb;
+    private IReportsDB rdb;
+    private ITasksManagement tm;
+
     private long startTime, finishTime;
     private boolean Active;
 
-    public Sprint(long startTime) {
+    public Sprint(long startTime, ITasksDB tdb, IReportsDB rdb, ITasksManagement tasksManagement) {
         this.startTime = startTime;
+        this.tdb = tdb;
+        this.rdb = rdb;
+        this.tm = tasksManagement;
         this.Active = true;
         this.report = new SprintReport(this.tasks, this.dailyReports, startTime);
     }
@@ -35,11 +45,11 @@ public class Sprint {
 
     public void finish(long time) throws Exception {
         for(int i : tasks) {
-            if(TasksDB.getInstance().getTaskById(i).getStatus() != Status.RESOLVED)
+            if(tdb.getTaskById(i).getStatus() != Status.RESOLVED)
                 throw new Exception("Unable to finish the sprint until all tasks are resolved");
         }
         this.finishTime = time;
-        ReportsDB.getInstance().getCurrentSprint().report.finish(time);
+        rdb.getCurrentSprint().report.finish(time);
         this.Active = false;
     }
 
@@ -60,20 +70,20 @@ public class Sprint {
     }
 
     public Collection<Task> getTasksOfUser(int userId) throws Exception {
-        Collection<Task> userTasks = TasksManagement.getInstance().getTasksByDoer(userId);
+        Collection<Task> userTasks = tm.getTasksByDoer(userId);
         Collection<Task> sprintTasks = new Vector<>();
         for(int i : tasks) {
-            sprintTasks.add(TasksDB.getInstance().getTaskById(i));
+            sprintTasks.add(tdb.getTaskById(i));
         }
         userTasks.retainAll(sprintTasks);
         return userTasks;
     }
 
     public Collection<Task> getTasksOfUsersSubordinates(int userId) throws Exception {
-        Collection<Task> userTasks = TasksManagement.getInstance().getSubordinatesTasks(userId);
+        Collection<Task> userTasks = tm.getSubordinatesTasks(userId);
         Collection<Task> sprintTasks = new Vector<>();
         for(int i : tasks) {
-            sprintTasks.add(TasksDB.getInstance().getTaskById(i));
+            sprintTasks.add(tdb.getTaskById(i));
         }
         userTasks.retainAll(sprintTasks);
         return userTasks;

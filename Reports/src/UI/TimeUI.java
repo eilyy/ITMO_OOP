@@ -1,13 +1,18 @@
 package UI;
 
-import system.databases.ReportsDB;
-import system.databases.TimeDB;
+import system.dal.IReportsDB;
+import system.TimeHelper;
 import system.reports.DailyReport;
 
 import java.util.Calendar;
 
 public class TimeUI {
-    TimeDB tmdb = TimeDB.getInstance();
+    private TimeHelper tmdb = TimeHelper.getInstance();
+    private IReportsDB rdb;
+
+    public TimeUI(IReportsDB reportsDB) {
+        this.rdb = reportsDB;
+    }
 
     public long getTime(int hour, int min) throws Exception {
         return tmdb.newTime(hour, min);
@@ -15,14 +20,14 @@ public class TimeUI {
 
     public void setDateNow(int year, int month, int day) throws Exception {
         tmdb.setDateNow(year, month, day);
-        ReportsDB.getInstance().newDailyReport(new DailyReport());
+        rdb.newDailyReport(new DailyReport(rdb));
     }
 
     public void nextDay() throws Exception {
-        ReportsDB.getInstance().getDailyReportByDay
-                (TimeDB.getInstance().getDate().get(Calendar.YEAR),
-                TimeDB.getInstance().getDate().get(Calendar.MONTH) + 1,
-                TimeDB.getInstance().getDate().get(Calendar.DAY_OF_MONTH)).finish();
+        rdb.getDailyReportByDay
+                (TimeHelper.getInstance().getDate().get(Calendar.YEAR),
+                TimeHelper.getInstance().getDate().get(Calendar.MONTH) + 1,
+                TimeHelper.getInstance().getDate().get(Calendar.DAY_OF_MONTH)).finish();
         tmdb.nextDay();
     }
 }

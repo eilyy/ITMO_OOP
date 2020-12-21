@@ -38,20 +38,4 @@ public class Transaction {
     public int getTransactionId() {
         return this.transactionId;
     }
-
-    public int getSenderId() {
-        return this.senderId;
-    }
-
-    public double getSentAmount() {
-        return this.sentAmount;
-    }
-
-    public double getReceivedAmount() {
-        return this.receivedAmount;
-    }
-
-    public int recipientId() {
-        return this.recipientId;
-    }
 }

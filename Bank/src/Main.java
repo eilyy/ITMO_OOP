@@ -12,7 +12,7 @@ public class Main {
             Bank tinkoff = new Bank(0.04, 0.05, 300000, 0.04, 0.1, 0.05, 0.06, 0.07);
 
             Client ilya = new Client("Ilya", "Evdokimov", "1q23", "123456");
-            Client seva = new Client("Seva", "Trutnev");
+            Client seva = new Client("Seva", "Lox");
 
             sber.newDebit(ilya);
             sber.newCredit(ilya);
@@ -28,11 +28,12 @@ public class Main {
             tinkoff.newCredit(seva);
             tinkoff.newDeposit(seva, 200000, 12);
 
+            db.getBankAccount(ilya.getAccount(1, 3)).replenish(20000);
             db.getBankAccount(ilya.getAccount(1, 1)).replenish(20000);
             db.getBankAccount(ilya.getAccount(1, 1)).transfer(seva.getAccount(2, 1), 10000);
             db.skipDays(60);
 
-
+            System.out.println(db.getBankAccount(ilya.getAccount(1, 3)).getBalance());
             System.out.println(db.getBankAccount(ilya.getAccount(1, 1)).getBalance());
             System.out.println(db.getBankAccount(seva.getAccount(2, 1)).getBalance());
 

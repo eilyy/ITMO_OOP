@@ -1,8 +1,6 @@
 package system;
 
-import system.databases.ReportsDB;
-import system.databases.StaffDB;
-import system.databases.TasksDB;
+import system.dal.*;
 import system.staff.Employee;
 import system.staff.IEmployee;
 import system.tasks.Status;
@@ -11,19 +9,17 @@ import system.tasks.Task;
 import java.util.Collection;
 import java.util.Vector;
 
-public class TasksManagement {
-    private static TasksManagement instance;
+public class TasksManagement implements ITasksManagement {
+    private IStaffDB sdb;
+    private ITasksDB tdb;
+    private IReportsDB rdb;
 
-    private static StaffDB sdb = StaffDB.getInstance();
-    private static TasksDB tdb = TasksDB.getInstance();
-    private static ReportsDB rdb = ReportsDB.getInstance();
+    private int taskId = 0;
 
-    private static int taskId = 0;
-
-    public static TasksManagement getInstance() {
-        if(instance == null)
-            instance = new TasksManagement();
-        return instance;
+    public TasksManagement(ITasksDB tasksDB, IStaffDB staffDB, IReportsDB reportsDB) {
+        this.tdb = tasksDB;
+        this.sdb = staffDB;
+        this.rdb = reportsDB;
     }
 
     private int generateTaskId() {
@@ -31,23 +27,27 @@ public class TasksManagement {
         return taskId;
     }
 
+    @Override
     public void setLastChangeTime(long time, int taskId) {
         tdb.setLastChangeTime(time, taskId);
     }
 
+    @Override
     public void removeLastChangeTime(long time) {
         tdb.removeLastChangeTime(time);
     }
 
+    @Override
     public void newTask(String name, String description, long time) throws Exception {
         int newId = this.generateTaskId();
 
-        tdb.addTask(newId, name, description, time);
+        tdb.addTask(newId, name, description, new Task(newId, name, description, rdb, this), time);
 
         if(rdb.onSprint())
             rdb.getCurrentSprint().addTask(newId);
     }
 
+    @Override
     public void assignTaskDoer(int taskId, int employeeId, long time) throws Exception {
         if(employeeId == 0 && sdb.getTeamLead() == null)
             throw new Exception("There is no team-lead in this system");
@@ -64,26 +64,36 @@ public class TasksManagement {
             throw new Exception("This task is unavailable to do");
     }
 
+    @Override
     public Collection<Task> getTasksByDoer(int employeeId) throws Exception {
         return (employeeId == 0) ? sdb.getTeamLead().getAllTasks() : sdb.getEmployeeById(employeeId).getAllTasks();
     }
 
+    @Override
     public Vector<Task> getCommittedEmployeesTasks(int employeeId) throws Exception {
         return sdb.getEmployeeById(employeeId).getCommittedTasks();
     }
 
+    @Override
     public Task getTaskByLastChangeTime(long time) throws Exception {
         if(!tdb.getLastChangeIds().contains(time))
             throw new Exception("No tasks with such last change time");
         return tdb.getTaskById(tdb.getLastChangeTime(time));
     }
 
+    @Override
+    public Task getTaskById(int id) throws Exception {
+        return tdb.getTaskById(id);
+    }
+
+    @Override
     public Task getTaskByInitTime(long time) throws Exception {
         if(!tdb.getCreateTimeIds().contains(time))
             throw new Exception("No tasks with such creation time");
         return tdb.getTaskById(tdb.getCreateTime(time));
     }
 
+    @Override
     public Collection<Task> getSubordinatesTasks(int managerId) throws Exception {
         var so = (managerId == 0) ? sdb.getTeamLead().getSubordinates() : sdb.getEmployeeById(managerId).getSubordinates();
         if(so.isEmpty())

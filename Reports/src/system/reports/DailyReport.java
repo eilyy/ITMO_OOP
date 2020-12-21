@@ -1,7 +1,8 @@
 package system.reports;
 
-import system.databases.ReportsDB;
-import system.databases.TimeDB;
+import system.dal.IReportsDB;
+import system.dal.ReportsDB;
+import system.TimeHelper;
 
 import java.util.Vector;
 
@@ -12,12 +13,13 @@ public class DailyReport {
 
     private String body = "===== DAILY REPORT =====\n";
 
-    private TimeDB tmdb = TimeDB.getInstance();
-    private ReportsDB rdb = ReportsDB.getInstance();
+    private TimeHelper tmdb = TimeHelper.getInstance();
+    private IReportsDB rdb;
 
-    public DailyReport() throws Exception {
+    public DailyReport(IReportsDB reportsDB) throws Exception {
         this.reportDay = tmdb.getDateNow();
-        rdb.newDailyReport(this);
+        this.rdb = reportsDB;
+        this.rdb.newDailyReport(this);
         this.status = Status.ACTIVE;
         if(rdb.onSprint())
             rdb.getCurrentSprint().addDailyReport(this);

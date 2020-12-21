@@ -1,23 +1,27 @@
 package UI;
 
-import system.StaffManagement;
+import system.IStaffManagement;
 
 public class StaffUI {
-    private StaffManagement sm = StaffManagement.getInstance();
+    private IStaffManagement sm;
+
+    public StaffUI(IStaffManagement staffManagement) {
+        this.sm = staffManagement;
+    }
 
     public void newEmployee(String name, int managerId) throws Exception {
-        sm.newEmployee(name, managerId);
+        this.sm.newEmployee(name, managerId);
     }
 
     public void newTeamLead(String name) throws Exception {
-        sm.newTeamLead(name);
+        this.sm.newTeamLead(name);
     }
 
     public void changeManagerForEmployee(int employeeId, int managerId) throws Exception {
-        sm.changeManagerForEmployee(employeeId, managerId);
+        this.sm.changeManagerForEmployee(employeeId, managerId);
     }
 
     public String getHierarchy() throws Exception {
-        return sm.getHierarchy();
+        return this.sm.getHierarchy();
     }
 }

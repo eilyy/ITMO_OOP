@@ -1,23 +1,25 @@
 package system;
 
-import system.databases.StaffDB;
-import system.databases.TasksDB;
+import system.dal.IReportsDB;
+import system.dal.IStaffDB;
+import system.dal.ITasksDB;
 import system.staff.Employee;
 import system.staff.TeamLead;
 
-public class StaffManagement {
-    private static StaffManagement instance;
+public class StaffManagement implements IStaffManagement {
+    private int employeeId = 0;
+    private int maxLevel = 0;
 
-    private static int employeeId = 0;
-    private static int maxLevel = 0;
+    private IStaffDB sdb;
+    private ITasksDB tdb;
+    private IReportsDB rdb;
+    private IReportsManagement rm;
 
-    private static StaffDB sdb = StaffDB.getInstance();
-    private static TasksDB tdb = TasksDB.getInstance();
-
-    public static StaffManagement getInstance() {
-        if(instance == null)
-            instance = new StaffManagement();
-        return instance;
+    public StaffManagement(IStaffDB staffDB, ITasksDB tasksDB, IReportsDB reportsDB, IReportsManagement reportsManagement) {
+        this.sdb = staffDB;
+        this.tdb = tasksDB;
+        this.rdb = reportsDB;
+        this.rm = reportsManagement;
     }
 
     private int generateEmployeeId() {
@@ -25,35 +27,41 @@ public class StaffManagement {
         return employeeId;
     }
 
+    @Override
     public TeamLead getTeamLead() throws Exception {
         return sdb.getTeamLead();
     }
 
+    @Override
     public int getMaxLevel() {
         return maxLevel;
     }
 
+    @Override
     public void setMaxLevel(int maxLevel) {
-        StaffManagement.maxLevel = maxLevel;
+        this.maxLevel = maxLevel;
     }
 
+    @Override
     public void newEmployee(String name, int managerId) throws Exception {
         if((!sdb.getEmployeesIds().contains(managerId) && managerId != 0) || (managerId == 0 && sdb.getTeamLead() == null))
             throw new Exception("Employee with given ID doesn't exist");
 
         int newId = generateEmployeeId();
         var manager = (managerId == 0) ? sdb.getTeamLead() : sdb.getEmployeeById(managerId);
-        sdb.addEmployee(newId, new Employee(newId, name, manager));
+        sdb.addEmployee(newId, new Employee(newId, name, manager, sdb, tdb, rdb, rm, this));
         manager.addSubordinate(newId);
     }
 
+    @Override
     public void newTeamLead(String name) throws Exception {
         if(sdb.getTeamLead() != null)
             throw new Exception("There is acting team-lead already");
 
-        sdb.setTeamLead(new TeamLead(name));
+        sdb.setTeamLead(new TeamLead(name, sdb, tdb, rdb, rm, this));
     }
 
+    @Override
     public void changeManagerForEmployee(int employeeId, int managerId) throws Exception {
         if(employeeId == 0)
             throw new Exception("Team-lead cannot have a manager");
@@ -65,6 +73,7 @@ public class StaffManagement {
             sdb.getEmployeeById(managerId).addSubordinate(employeeId);
     }
 
+    @Override
     public String getHierarchy() throws Exception {
         String hierarchy = "===== HIERARCHY =====\n";
 
